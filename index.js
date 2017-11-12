@@ -1,7 +1,7 @@
 var cool = require('cool-ascii-faces');
 var express = require('express');
 var app = express();
-
+var url = require('url');
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
@@ -9,6 +9,7 @@ app.use(express.static(__dirname + '/public'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+3
 
 app.get('/', function (request, response) {
     response.render('pages/index')
@@ -20,9 +21,29 @@ app.get('/cool', function (request, response) {
 });
 
 app.get('/getResult', function (request, response) {
-    response.render('pages/result');
-    calculateRate('Letters(Stamped)', 3);
+    handleResult(request, response);
 });
+
+function handleResult(request, response) {
+    var requestUrl = url.parse(request.url, true);
+
+    console.log("Query parameters: " + JSON.stringify(requestUrl.query));
+
+    // TODO: Here we should check to make sure we have all the correct parameters
+
+    var mailType = requestUrl.query.typeofmail;
+    var weight = Number(requestUrl.query.weight);
+
+
+    var rate = calculateRate(mailType, weight);
+    var params = {
+        mT: mailType,
+        wT: weight,
+        rT: rate
+    };
+    response.render('pages/result', params);
+}
+
 
 
 function calculateRate(mailType, weight) {
