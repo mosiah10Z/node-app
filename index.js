@@ -35,7 +35,7 @@ function handleResult(request, response) {
     var weight = Number(requestUrl.query.weight);
 
 
-    var rate = calculateRate(mailType, weight);
+    var rate = calculateRate(mailType, weight).toFixed(2);
     var params = {
         mT: mailType,
         wT: weight,
@@ -47,7 +47,7 @@ function handleResult(request, response) {
 
 
 function calculateRate(mailType, weight) {
-    if (mailType == "Letters(Stamped)") {
+    if (mailType == "Letters (Stamped)") {
         console.log("LS");
         if (weight <= 1) {
             return 0.49;
