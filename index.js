@@ -3,12 +3,12 @@ var express = require('express');
 var app = express();
 var url = require('url');
 
-var pg = require("pg"); // This is the postgres database connection module.
-//const connectionString = "postgres://postgres:secret@localhost:5432/node";
+// var pg = require("pg"); // This is the postgres database connection module.
+// const connectionString = "postgres://postgres:secret@localhost:5432/node";
 
+const { Client } = require('pg');
 
-
-const client = new pg({
+const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: true,
 });
