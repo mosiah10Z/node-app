@@ -3,9 +3,11 @@ var express = require('express');
 var app = express();
 var url = require('url');
 
+//use for local
 // var pg = require("pg"); // This is the postgres database connection module.
 // const connectionString = "postgres://postgres:secret@localhost:5432/node";
 
+//use for heroku
 const { Client } = require('pg');
 
 const client = new Client({
@@ -59,8 +61,9 @@ function getStroke(request, response) {
 function getStrokeFromDb(id, callback) {
     console.log("Getting person from DB with id: " + id);
 
+    //uncomment for local. comment out for heroku
     //var client = new pg.Client(connectionString);
-    
+
 
     client.connect(function(err) {
         if (err) {
