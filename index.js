@@ -4,7 +4,15 @@ var app = express();
 var url = require('url');
 
 var pg = require("pg"); // This is the postgres database connection module.
-const connectionString = "postgres://postgres:secret@localhost:5432/node";
+//const connectionString = "postgres://postgres:secret@localhost:5432/node";
+
+
+
+const client = new pg({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+});
+
 
 app.set('port', (process.env.PORT || 5000));
 
