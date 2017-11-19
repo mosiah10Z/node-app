@@ -59,7 +59,8 @@ function getStroke(request, response) {
 function getStrokeFromDb(id, callback) {
     console.log("Getting person from DB with id: " + id);
 
-    var client = new pg.Client(connectionString);
+    //var client = new pg.Client(connectionString);
+    
 
     client.connect(function(err) {
         if (err) {
