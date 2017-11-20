@@ -1,0 +1,53 @@
+
+<!-- views/home.ejs -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Node.js Blog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .jumbotron {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <%- include('partials/navbar') %>
+    <div class="jumbotron">
+        <h1>Tennis Todo</h1>
+        <p class="lead">Improve your strokes</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="list-group">
+                <!-- loop over blog posts and render them -->
+                <% posts.forEach((post) => { %>
+                <a href="/post/<%= post.id %>" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        <%= post.name %>
+                    </h4>
+                    <p class="list-group-item-text">
+                        <%= post.name %>
+                    </p>
+                </a>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/footer') %>
+</div>
+</body>
+
+</html>
