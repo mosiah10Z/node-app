@@ -1,4 +1,3 @@
-
 <!-- views/home.ejs -->
 
 <!DOCTYPE html>
@@ -26,7 +25,9 @@
     <%- include('partials/navbar') %>
     <div class="jumbotron">
         <h1>Tennis Todo</h1>
-        <p class="lead">Improve your strokes</p>
+
+        <p class="lead">Forehand</p>
+
     </div>
 
     <div class="row">
@@ -34,12 +35,12 @@
             <div class="list-group">
                 <!-- loop over blog posts and render them -->
                 <% posts.forEach((post) => { %>
-                <a href="/<%= post.name %>" class="list-group-item">
+                <a href="/<%= post.title %>" class="list-group-item">
                     <h4 class="list-group-item-heading">
-                        <%= post.name %>
+                        <%= post.title %>
                     </h4>
                     <p class="list-group-item-text">
-                        <%= post.name %>
+                        <%= post.text %>
                     </p>
                 </a>
                 <div>
@@ -52,12 +53,6 @@
     </div>
     <%- include('partials/footer') %>
 </div>
-<script>
-
-
-
-
-</script>
 </body>
 
 </html>

@@ -1,8 +1,13 @@
-var cool = require('cool-ascii-faces');
+
 var express = require('express');
 var app = express();
 var url = require('url');
+var todoController = require('./controllers/todoController.js');
 var calculateRate = require('./calculateRate.js');
+
+
+//fire controller
+todoController(app);
 
 //use for local
 var pg = require("pg"); // This is the postgres database connection module.
@@ -28,24 +33,26 @@ app.set('view engine', 'ejs');
 
 //tennis node app
 app.get('/tennisTodo', function(request, response) {
-    getStroke(request, response);
+    var sql = "SELECT name from stroke";
+    var view = "home";
+    getStroke(view, sql, request, response);
 });
 
-app.get('/post/:id', (req, res) => {
-    // find the post in the `posts` array
-    const post = posts.filter((post) => {
-        return post.id == req.params.id
-    })[0]
+app.get('/Forehand', function(request, response) {
+    var sql = "SELECT * from tennistodo where stroke_id = 1";
+    var view = "forehand";
+    getStroke(view, sql, request, response);
 
-    // render the `post.ejs` template with the post content
-    res.render('post', {
-        author: post.title,
-        title: post.title,
-        body: post.text
-    })
-})
+});
 
-function getStroke(request, response) {
+app.get('/Backhand', function(request, response) {
+    var sql = "SELECT * from tennistodo where stroke_id = 2";
+    var view = "home";
+    getStroke(view, sql, request, response);
+});
+
+
+function getStroke(view, sql, request, response) {
     // First get the stroke's id
 
 
@@ -60,7 +67,7 @@ function getStroke(request, response) {
     // TODO: It would be nice to check here for a valid id before continuing on...
 
     // use a helper function to query the DB, and provide a callback for when it's done
-    getStrokeFromDb(id, function(error, result) {
+    getStrokeFromDb(view, sql, id, function(error, result) {
         // This is the callback function that will be called when the DB is done.
         // The job here is just to send it back.
 
@@ -70,14 +77,14 @@ function getStroke(request, response) {
         } else {
             var person = result[0];
             var params = result;
-            response.render('home', {posts: result})
-            // console.log("Found result: " + JSON.stringify(result.rows))
+            response.render(view, {posts: result})
+            console.log("Found result: " + JSON.stringify(result))
             //response.status(200).json(result[0]);
         }
     });
 }
 
-function getStrokeFromDb(id, callback) {
+function getStrokeFromDb(view, sql, id, callback) {
     console.log("Getting person from DB with id: " + id);
 
     //uncomment for local. comment out for heroku
@@ -91,7 +98,7 @@ function getStrokeFromDb(id, callback) {
             callback(err, null);
         }
 
-        var sql = "SELECT name from stroke";
+       // var sql = "SELECT name from stroke";
         var params = [id];
         console.log(params.length);
 
