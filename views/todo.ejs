@@ -11,8 +11,15 @@
     <link href="/assets/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Forehand</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Backhand</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Serve</button>
+</div>
+
+<div id="London" class="tabcontent">
 <h1>Forehand Todo List</h1>
-<div id="todo-table">
+<div class="todo-table">
     <form method="post">
         <input type="text" name="item" placeholder="Add a new improvement item..." required />
         <button type="submit">Add Item</button>
@@ -24,8 +31,58 @@
         <% }%>
     </ul>
 </div>
+</div>
 
+<div id="Paris" class="tabcontent">
+    <h1>Backhand Todo List</h1>
+    <div class="todo-table">
+        <form method="post">
+            <input type="text" name="item" placeholder="Add a new improvement item..." required />
+            <button type="submit">Add Item</button>
 
+        </form>
+        <ul>
+            <% for (var i=0; i < todos.length; i++) { %>
+            <li><%=todos[i].item%></li>
+            <% }%>
+        </ul>
+    </div>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+    <h1>Serve Todo List</h1>
+    <div class="todo-table">
+        <form method="post">
+            <input type="text" name="item" placeholder="Add a new improvement item..." required />
+            <button type="submit">Add Item</button>
+
+        </form>
+        <ul>
+            <% for (var i=0; i < todos.length; i++) { %>
+            <li><%=todos[i].item%></li>
+            <% }%>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
 
 </body>
 </html>

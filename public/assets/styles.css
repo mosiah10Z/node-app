@@ -4,7 +4,7 @@ body{
     color: #989898;
 }
 
-#todo-table{
+.todo-table{
     position: relative;
     width: 95%;
     background: #090d13;
@@ -13,7 +13,7 @@ body{
     box-sizing: border-box;
 }
 
-#todo-table form:after{
+.todo-table form:after{
     margin: 0;
     content: '';
     display: block;
@@ -68,4 +68,44 @@ h1{
     margin-bottom: 20px;
     text-align: center;
 
+}
+
+/*addition*/
+
+      /* Style the tab */
+  div.tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+  }
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: black;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #989898;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }
