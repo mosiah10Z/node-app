@@ -11,7 +11,8 @@ $(document).ready(function(){
             data: todo,
             success: function(data){
                 //do something with the data via front-end framework
-                location.reload();
+                //location.reload();
+                updateList(data);
             }
         });
 
@@ -32,3 +33,8 @@ $(document).ready(function(){
     });
 
 });
+
+var updateList = function (results) {
+    var li = document.getElementById("fh");
+    li.innerHtml = results;
+}

@@ -7,7 +7,7 @@ module.exports = function(app) {
 
     //create a schema - a blueprint
     var todoSchema = new mongoose.Schema({
-        item: String
+        item: {type: String, required: true}
     });
 
     var Todo = mongoose.model('Todo', todoSchema);
@@ -26,6 +26,7 @@ module.exports = function(app) {
         //get data from mongo and pass it to the view
         Todo.find({},function (err,data){
             if (err) throw err;
+            console.log(data);
             res.render('todo', {todos: data});
         })
 
@@ -33,10 +34,11 @@ module.exports = function(app) {
 
     app.post('/todo', urlencodedParser, function(req,res) {
         //get date from view and add it to mongo
-        var newTodo = Todo(req.body).save(function (err,data) {
-            res.json(data);
-        })
-
+        if (req.body !== "") {
+            var newTodo = Todo(req.body).save(function (err, data) {
+                res.json(data);
+            })
+        }
 
     });
 
