@@ -34,11 +34,14 @@ module.exports = function(app) {
 
     app.post('/todo', urlencodedParser, function(req,res) {
         //get date from view and add it to mongo
+        console.log("Logging Req" + req);
         if (req.body !== "") {
             var newTodo = Todo(req.body).save(function (err, data) {
-                res.json(data);
+                res.render('todo', {todos: data});
+                console.log("logging data" +data);
             })
         }
+
 
     });
 
