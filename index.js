@@ -1,172 +1,106 @@
-
+// requirements for app
 var express = require('express');
 var app = express();
-var url = require('url');
-var todoController = require('./controllers/todoController.js');
-var calculateRate = require('./calculateRate.js');
 
+// require body-parser for parsing form data
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
-//fire controller
-todoController(app);
-
-//use for local
-var pg = require("pg"); // This is the postgres database connection module.
-const connectionString = "postgres://postgres:secret@localhost:5432/node";
-
-//use for heroku
-// const { Client } = require('pg');
-//
-// const client = new Client({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true,
-// });
-
-
-app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-// views is directory for all template files
-app.set('views', __dirname + '/views');
+// set up EJS for view rendering; specify static assets folders
+var ejs = require('ejs');
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
+// require mongoose
+var mongoose = require('mongoose');
+// connect to DB
+mongoose.connect('mongodb://test:test@ds125016.mlab.com:25016/todo');
 
-//tennis node app
-app.get('/tennisTodo', function(request, response) {
-    var sql = "SELECT name from stroke";
-    var view = "home";
-    getStroke(view, sql, request, response);
+// set db to connection property of mongoose
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+    console.log("connection open!")
 });
 
-app.get('/Forehand', function(request, response) {
-    var sql = "SELECT * from tennistodo where stroke_id = 1";
-    var view = "forehand";
-    getStroke(view, sql, request, response);
-
+var todoSchema = mongoose.Schema({
+    title: String,
+    description: String,
+    category: String
 });
 
-app.get('/Backhand', function(request, response) {
-    var sql = "SELECT * from tennistodo where stroke_id = 2";
-    var view = "home";
-    getStroke(view, sql, request, response);
+// the Todo model
+var Todo = mongoose.model('Todo', todoSchema);
+var myTodo = new Todo({
+    title: "Kamehameha",
+    description: "Do it now Gohan!",
+    category: "backhand"
 });
 
+console.log(myTodo);
 
-function getStroke(view, sql, request, response) {
-    // First get the stroke's id
+app.get('/', function (req, res) {
+    res.redirect('/todos');
+})
 
-
-    //console.log("Query parameters: " + JSON.stringify(requestUrl.query));
-
-    // TODO: Here we should check to make sure we have all the correct parameters
-
-    // First get the person's id
-    var id = 1
-
-
-    // TODO: It would be nice to check here for a valid id before continuing on...
-
-    // use a helper function to query the DB, and provide a callback for when it's done
-    getStrokeFromDb(view, sql, id, function(error, result) {
-        // This is the callback function that will be called when the DB is done.
-        // The job here is just to send it back.
-
-        // Make sure we got a row with the person, then prepare JSON to send back
-        if (error || result == null) {
-            response.status(500).json({success: false, data: error});
-        } else {
-            var person = result[0];
-            var params = result;
-            response.render(view, {posts: result})
-            console.log("Found result: " + JSON.stringify(result))
-            //response.status(200).json(result[0]);
-        }
-    });
-}
-
-function getStrokeFromDb(view, sql, id, callback) {
-    console.log("Getting person from DB with id: " + id);
-
-    //uncomment for local. comment out for heroku
-     var client = new pg.Client(connectionString);
-
-
-    client.connect(function(err) {
-        if (err) {
-            console.log("Error connecting to DB: ")
-            console.log(err);
-            callback(err, null);
-        }
-
-       // var sql = "SELECT name from stroke";
-        var params = [id];
-        console.log(params.length);
-
-        var query = client.query(sql, function(err, result) {
-            // we are now done getting the data from the DB, disconnect the client
-            client.end(function(err) {
-                if (err) throw err;
-            });
-
-            if (err) {
-                console.log("Error in query: ")
-                console.log(err);
-                callback(err, null);
-            }
-
-            console.log("Found result: " + JSON.stringify(result.rows));
-
-
-            // call whatever function the person that called us wanted, giving it
-            // the results that we have been compiling
-            callback(null, result.rows);
+app.get('/todos', function (req, res) {
+    // search for all Todo object in DB
+    Todo.find(function (err, todos) {
+        if (err) return console.error(err);
+        console.log("existing todos are: ", todos);
+        // render index page, passing todos as local variable
+        res.render('index', {
+            todos: todos
         });
     });
+})
 
-} // end of getPersonFromDb
+app.post('/todos', function (req, res) {
+    // create a new Todo
+    var todo = new Todo({
+        title: req.body.title,
+        description: req.body.description,
+        category: req.body.category
+    })
+    console.log("created todo: ", todo);
 
+    // save your todo in the DB
+    todo.save(function (err, todo) {
+        if (err) return console.error(err);
+        console.log("save successful");
+        return todo;
+    });
+    // return JSON of your todo
+    res.json(todo);
+    // control goes back to the client now
+})
 
-//tennis node app
+app.delete('/todos/:id', function (req, res) {
+    // find the todo to delete in the DB
+    var target = Todo.findById(req.params.id, function (err, todo) {
+        return todo;
+    });
 
+    // delete the todo from the DB
+    target.remove(function (err, target) {
+        if (err) return handleError(err);
+        // prove that it's gone by failing to find it
+        Todo.findById(req.params.id, function (err, todo) {
+            console.log("todo in find in remove callback: ", todo); // null
+            // show all the remaining todos
+            // normally wouldn't do this, it's just a sanity check
+            Todo.find(function (err, todos) {
+                if (err) return console.error(err);
+                console.log(todos);
+            });
+            // tell the client everything is okay
+            res.status(200).send("Todo deleted");
+        })
+    })
+})
 
-app.get('/', function (request, response) {
-    response.render('pages/index')
-    console.log("hello");
-});
-
-app.get('/cool', function (request, response) {
-    response.send(cool());
-});
-
-app.get('/getResult', function (request, response) {
-    handleResult(request, response);
-});
-
-function handleResult(request, response) {
-    var requestUrl = url.parse(request.url, true);
-
-    console.log("Query parameters: " + JSON.stringify(requestUrl.query));
-
-    // TODO: Here we should check to make sure we have all the correct parameters
-
-    var mailType = requestUrl.query.typeofmail;
-    var weight = Number(requestUrl.query.weight);
-
-
-    var rate = calculateRate(mailType, weight).toFixed(2);
-    var params = {
-        mT: mailType,
-        wT: weight,
-        rT: rate
-    };
-    response.render('pages/result', params);
-}
-
-
-
-
-
-app.listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
-});
-
+app.listen(5000, function () {
+    console.log("server listening on localhost:3000");
+})

@@ -1,47 +1,37 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-    <title>Tennis To do list forehand
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    </title>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Document</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/todo-list.js"></script>
-    <link href="/assets/styles.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="simple-client.js"></script>
 </head>
+
 <body>
-<div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Forehand</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Backhand</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Serve</button>
-</div>
-
-<div id="London" class="tabcontent">
-<h1>Forehand Todo List</h1>
-<div class="todo-table">
-    <form method="post">
-        <input type="text" name="item" placeholder="Add a new improvement item..." required />
-        <button type="submit">Add Item</button>
-
-    </form>
-    <ul>
-        <% for (var i=0; i < todos.length; i++) { %>
-        <li><%=todos[i].item%></li>
-        <% }%>
-    </ul>
-</div>
-</div>
-
-<div id="Paris" class="tabcontent">
-    <h1>Backhand Todo List</h1>
-    <div class="todo-table">
-        <form method="post">
-            <input type="text" name="item" placeholder="Add a new improvement item..." required />
-            <button type="submit">Add Item</button>
-
-        </form>
-        <ul>
+<div class="container">
+    <div class="content">
+        <div class="todo-container">
+            <form action="/todos" id="create-todo">
+                <input type="text" name="title" placeholder="Your task">
+                <input type="text" name="description" placeholder="Explain it">
+                <input type="submit" value="Create Task">
+            </form>
             <% if (todos) { todos.forEach(function(todo) { %>
             <div class="todo" id="<%= todo._id %>">
                 <h2>
@@ -54,44 +44,10 @@
                 <button class="btn btn-danger delete-todo">Delete</button>
             </div>
             <% }); } %>
-        </ul>
+        </div>
     </div>
 </div>
-
-<div id="Tokyo" class="tabcontent">
-    <h1>Serve Todo List</h1>
-    <div class="todo-table">
-        <form method="post">
-            <input type="text" name="item" placeholder="Add a new improvement item..." required />
-            <button type="submit">Add Item</button>
-
-        </form>
-        <ul>
-            <% for (var i=0; i < todos.length; i++) { %>
-            <li><%=todos[i].item%></li>
-            <% }%>
-        </ul>
-    </div>
-</div>
-
-<script>
-    function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
-</script>
 
 </body>
+
 </html>

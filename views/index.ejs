@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Document</title>
+
+    <link rel="stylesheet" href="stylesheets/main.css">
+
+    <script src="assets/todo-list.js"></script>
+</head>
+
+<body>
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Forehand</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Backhand</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Serve</button>
+</div>
+<div id="London" class="tabcontent">
+    <h1>Forehand Todo List</h1>
+<div class="container">
+    <div class="content">
+        <div class="todo-container">
+            <form action="/todos" id="create-todo">
+                <input type="text" name="title" placeholder="Your task">
+                <input type="text" name="description" placeholder="Explain it">
+                <input type="hidden" name="category" value="forehand">
+                <input type="submit" value="Create Task">
+            </form>
+
+            <% if (todos) { todos.forEach(function(todo) { if (todo.category == "forehand") {%>
+            <div class="todo" id="<%= todo._id %>">
+                <h2>
+                    <%= todo.title %>
+                </h2>
+                <p>
+                    <%= todo.description %>
+                </p>
+                <!-- <button class="btn btn-primary update-todo">Update</button> -->
+                <button class="btn btn-danger delete-todo">Delete</button>
+            </div>
+            <% } %>
+            <% }); } %>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="Paris" class="tabcontent">
+    <h1>Backhand Todo List</h1>
+    <div class="container">
+        <div class="content">
+            <div class="todo-container">
+                <form action="/todos" id="create-todo">
+                    <input type="text" name="title" placeholder="Your task">
+                    <input type="text" name="description" placeholder="Explain it">
+                    <input type="hidden" name="category" value="backhand">
+                    <input type="submit" value="Create Task">
+                </form>
+                <% if (todos) { todos.forEach(function(todo) { if (todo.category == "backhand") {%>%>
+                <div class="todo" id="<%= todo._id %>">
+                    <h2>
+                        <%= todo.title %>
+                    </h2>
+                    <p>
+                        <%= todo.description %>
+                    </p>
+                    <!-- <button class="btn btn-primary update-todo">Update</button> -->
+                    <button class="btn btn-danger delete-todo">Delete</button>
+                </div>
+                <% } %>
+                <% }); } %>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+</body>
+
+</html>
