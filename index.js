@@ -75,6 +75,7 @@ app.post('/todos', function (req, res) {
         return todo;
     });
     // return JSON of your todo
+    console.log("return JSON of your todo");
     res.json(todo);
     // control goes back to the client now
 })

@@ -22,6 +22,7 @@ $(document).ready(function() {
         var formData = $(e.target).serialize();
         $('#create-todo').trigger("reset");
 
+
         // invoking AJAX constructor function, passing an object literal as an argument
         $.ajax({
             url: '/todos', // matches server-side route
@@ -31,14 +32,16 @@ $(document).ready(function() {
         // at this point, control is with the server
             .done(function(data) {
                 // data is the server response that you specify using res.json(someObject) or res.whateverMethod
+                console.log("inside ajax");
                 console.log(data);
                 // building the HTML string using the JSON response
                 var todo = buildTodo(data)
                 //if it is supposed to be in the container
 
                 // appending HTML string to DOM
+                var classname = data.category;
 
-                    $('.todo-container').append(todo);
+                    $('.'+classname).append(todo);
 
             })
             .fail(function(data) {
