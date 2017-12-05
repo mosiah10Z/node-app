@@ -37,9 +37,9 @@ $(document).ready(function() {
                 //if it is supposed to be in the container
 
                 // appending HTML string to DOM
-                if (data.category == $('input[type=hidden]').val()) {
+
                     $('.todo-container').append(todo);
-                }
+
             })
             .fail(function(data) {
                 console.log("post route failed :", data);

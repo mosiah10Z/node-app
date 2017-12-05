@@ -13,11 +13,11 @@ var ejs = require('ejs');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-app.set('port', (process.env.PORT || 5000));
+
 // require mongoose
 var mongoose = require('mongoose');
 // connect to DB
-mongoose.connect('mongodb://test:test@ds125016.mlab.com:25016/todo');
+mongoose.connect('mongodb://den:den@ds125016.mlab.com:25016/todo');
 
 // set db to connection property of mongoose
 var db = mongoose.connection;
@@ -26,6 +26,7 @@ db.once('open', function (callback) {
     console.log("connection open!")
 });
 
+app.set('port', (process.env.PORT || 5000));
 var todoSchema = mongoose.Schema({
     title: String,
     description: String,
@@ -42,9 +43,9 @@ var myTodo = new Todo({
 
 console.log(myTodo);
 
-// app.get('/', function (req, res) {
-//     res.redirect('/todos');
-// })
+app.get('/', function (req, res) {
+    res.redirect('/todos');
+})
 
 app.get('/todos', function (req, res) {
     // search for all Todo object in DB
@@ -102,6 +103,9 @@ app.delete('/todos/:id', function (req, res) {
     })
 })
 
-app.listen(5000, function () {
-    console.log("server listening on localhost:5000");
-})
+// app.listen(5000, function () {
+//     console.log("server listening on localhost:5000");
+// })
+app.listen(app.get('port'), function () {
+    console.log('Node app is running on port', app.get('port'));
+});
