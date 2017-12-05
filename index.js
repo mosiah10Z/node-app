@@ -13,6 +13,7 @@ var ejs = require('ejs');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+app.set('port', (process.env.PORT || 5000));
 // require mongoose
 var mongoose = require('mongoose');
 // connect to DB
@@ -102,5 +103,5 @@ app.delete('/todos/:id', function (req, res) {
 })
 
 app.listen(5000, function () {
-    console.log("server listening on localhost:3000");
+    console.log("server listening on localhost:5000");
 })
