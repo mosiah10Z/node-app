@@ -41,9 +41,9 @@ var myTodo = new Todo({
 
 console.log(myTodo);
 
-app.get('/', function (req, res) {
-    res.redirect('/todos');
-})
+// app.get('/', function (req, res) {
+//     res.redirect('/todos');
+// })
 
 app.get('/todos', function (req, res) {
     // search for all Todo object in DB
