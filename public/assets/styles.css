@@ -21,13 +21,14 @@ body{
 }
 
 input[type="text"]{
-    width: 70%;
+
     padding: 20px;
     background:#181c22;
     border: 0;
     float: left;
     font-size: 20px;
     color: #989898;
+    display: inline-block;
 }
 
 button{

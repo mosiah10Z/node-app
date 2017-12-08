@@ -42,6 +42,8 @@ $(document).ready(function() {
                 var classname = data.category;
 
                     $('.'+classname).append(todo);
+                    $('input[name="title"]').val('');
+                    $('input[name="description"]').val('');
 
             })
             .fail(function(data) {

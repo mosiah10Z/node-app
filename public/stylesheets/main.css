@@ -25,11 +25,95 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
-.todo {
-  border: 1px red solid;
-  background-color: #afafaf;
+/*.todo {*/
+  /*border: 1px red solid;*/
+  /*background-color: #afafaf;*/
+/*}*/
+
+/*.todo-container {*/
+  /*background-color: skyblue;*/
+/*}*/
+
+body{
+    background: #0d1521;
+    font-family: tahoma;
+    color: #989898;
 }
 
-.todo-container {
-  background-color: skyblue;
+h1{
+
+    margin-bottom: 20px;
+    text-align: center;
 }
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #0d1521;
+    background-color: #0d1521;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: #23282e;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: darkslategrey;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #0d1521;
+}
+
+/* Style the tab content */
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #090d13;
+}
+
+/****style the form****/
+
+input[type="text"]{
+
+    padding: 20px;
+    background:#181c22;
+    border: 0;
+    float:left;
+    margin:5px;
+    font-size: 20px;
+    color: #989898;
+}
+
+input[type="submit"]{
+    padding: 20px;
+    width: 30%;
+    float:left;
+    margin:5px;
+    background: #23282e;
+    border: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.todo {
+    margin: 0;
+    padding: 10px;
+    content: '';
+    display: block;
+    clear: both;
+}
+
